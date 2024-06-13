@@ -1,10 +1,12 @@
+<!-- index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Recommendation API Caller</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"> <!-- Ensure this links to your CSS file -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const apiUrl = 'https://movie-recom-api.onrender.com/predict';
@@ -15,6 +17,10 @@
                     const movieInput = document.getElementById('movieInput').value;
                     const movielist = movieInput.split(',').map(movie => movie.trim());
                     
+                    // Show loading state
+                    const loadingElement = document.getElementById('loading');
+                    loadingElement.style.display = 'block';
+
                     const response = await fetch(apiUrl, {
                         method: 'POST',
                         headers: {
@@ -32,8 +38,14 @@
 
                     const recommendations = JSON.parse(jsonResponse.recommendations);
                     displayRecommendations(recommendations);
+
+                    // Hide loading state
+                    loadingElement.style.display = 'none';
                 } catch (error) {
                     console.error('Error calling API:', error);
+                    // Hide loading state in case of error
+                    const loadingElement = document.getElementById('loading');
+                    loadingElement.style.display = 'none';
                 }
             }
 
@@ -59,7 +71,8 @@
     <p>Enter movie name (To add more use commas):</p>
     <input type="text" id="movieInput" placeholder="e.g., Fight Club, Inception, Shutter Island, The Matrix">
     <button id="callApiButton">Get Recommendations</button>
-    <h3>Recommendations:</h3>
+    <div id="loading" style="display: none;">Loading...</div> <!-- Loading indicator -->
+    <h2>Recommendations:</h2>
     <ul id="recommendationList"></ul>
 </body>
 </html>
