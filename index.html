@@ -15,6 +15,13 @@
             async function callMovieRecommendationAPI() {
                 try {
                     const movieInput = document.getElementById('movieInput').value;
+
+                    // Check if input field is empty
+                    if (movieInput === '') {
+                        alert('Please enter at least one movie name.');
+                        return;
+                    }
+
                     const movielist = movieInput.split(',').map(movie => movie.trim());
                     
                     // Show loading state
@@ -54,7 +61,11 @@
             function displayRecommendations(recommendations) {
                 const recommendationList = document.getElementById('recommendationList');
                 recommendationList.innerHTML = '';
-                recommendations.forEach(recommendation => {
+
+                // Take only the top 10 recommendations
+                const topRecommendations = recommendations.slice(0, 10);
+
+                topRecommendations.forEach(recommendation => {
                     const listItem = document.createElement('li');
                     listItem.textContent = recommendation.title;
                     recommendationList.appendChild(listItem);
