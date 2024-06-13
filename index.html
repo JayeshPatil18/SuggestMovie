@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendation API Caller</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const apiUrl = 'http://127.0.0.1:5000/predict';
+
+            // Function to make API call
+            async function callMovieRecommendationAPI() {
+                try {
+                    const movieInput = document.getElementById('movieInput').value;
+                    const movielist = movieInput.split(',').map(movie => movie.trim());
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ movielist })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+
+                    const jsonResponse = await response.json();
+                    console.log('API Response:', jsonResponse);
+
+                    const recommendations = JSON.parse(jsonResponse.recommendations);
+                    displayRecommendations(recommendations);
+                } catch (error) {
+                    console.error('Error calling API:', error);
+                }
+            }
+
+            // Function to display recommendations
+            function displayRecommendations(recommendations) {
+                const recommendationList = document.getElementById('recommendationList');
+                recommendationList.innerHTML = '';
+                recommendations.forEach(recommendation => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = recommendation.title;
+                    recommendationList.appendChild(listItem);
+                });
+            }
+
+            // Attach API call function to button click
+            const callApiButton = document.getElementById('callApiButton');
+            callApiButton.addEventListener('click', callMovieRecommendationAPI);
+        });
+    </script>
+</head>
+<body>
+    <h1>Movie Recommendation API Caller</h1>
+    <p>Enter movie names separated by commas:</p>
+    <input type="text" id="movieInput" placeholder="e.g., Fight Club, Inception, Shutter Island, The Matrix">
+    <button id="callApiButton">Get Recommendations</button>
+    <h2>Recommendations:</h2>
+    <ul id="recommendationList"></ul>
+</body>
+</html>
