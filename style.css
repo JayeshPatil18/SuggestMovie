@@ -76,3 +76,11 @@ p {
     transition: transform 0.2s ease;
 }
 
+#loading {
+    display: none;
+    font-size: 18px;
+    font-weight: 600;
+    color: #ccc;
+    margin-top: 10px;
+    padding: 10px; /* Adding padding */
+}
