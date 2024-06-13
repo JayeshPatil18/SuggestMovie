@@ -6,7 +6,7 @@
     <title>Movie Recommendation API Caller</title>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const apiUrl = 'http://127.0.0.1:5000/predict';
+            const apiUrl = 'https://movie-recom-api.onrender.com/predict';
 
             // Function to make API call
             async function callMovieRecommendationAPI() {
@@ -54,8 +54,8 @@
     </script>
 </head>
 <body>
-    <h1>Movie Recommendation API Caller</h1>
-    <p>Enter movie names separated by commas:</p>
+    <h1>Movie Recommendation API</h1>
+    <p>Enter movie name (To add more use commas):</p>
     <input type="text" id="movieInput" placeholder="e.g., Fight Club, Inception, Shutter Island, The Matrix">
     <button id="callApiButton">Get Recommendations</button>
     <h2>Recommendations:</h2>
