@@ -36,17 +36,18 @@
                         body: JSON.stringify({ movielist })
                     });
 
+                    
+                    const jsonResponse = await response.json();
+                    console.log('API Response:', jsonResponse);
+                    
                     if (!response.ok) {
-                        if (response.status == 49) {
+                        if (jsonResponse.error == "index 0 is out of bounds for axis 0 with size 0") {
                             alert('Entered movie not in our database, Try Another!')
                         } else {
                             alert('Refresh Page, Something Went Wrong!')
                         }
                         throw new Error(`HTTP error! Status: ${response.status}`);
                     }
-
-                    const jsonResponse = await response.json();
-                    console.log('API Response:', jsonResponse);
 
                     const recommendations = JSON.parse(jsonResponse.recommendations);
                     displayRecommendations(recommendations);
